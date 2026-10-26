@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "Se você usar este material, cite-o como abaixo."
+title: "Mapa dos Dois Turnos 2026: votação presidencial por região, estado, município e zona eleitoral"
+type: software
+version: 1.0.0
+date-released: 2026-10-26
+authors:
+  - family-names: Coimbra
+    given-names: "Paulo C."
+    affiliation: "Universidade Federal de Juiz de Fora (UFJF)"
+    # orcid: "https://orcid.org/0000-0000-0000-0000"   # preencha com o seu ORCID
+repository-code: "https://github.com/pauloccoimbra/mapa-dois-turnos-2026"
+url: "https://pauloccoimbra.github.io/mapa-dois-turnos-2026/"
+# doi: "10.5281/zenodo.XXXXXXX"   # inclua depois que o Zenodo gerar o DOI
+license: CC-BY-4.0
+abstract: >-
+  Mapa interativo da eleição presidencial de 2026 (1º e 2º turnos) por região, estado,
+  município e zona eleitoral, com dados de divulgação do TSE, malhas municipais do IBGE e
+  estimativas de migração de votos entre os turnos por inferência ecológica. Inclui a base
+  por zona, as tabelas derivadas, o código de análise e o código da página.
+keywords:
+  - eleições 2026
+  - segundo turno
+  - zonas eleitorais
+  - TSE
+  - dados abertos
+  - inferência ecológica
+  - visualização de dados
+  - Brasil

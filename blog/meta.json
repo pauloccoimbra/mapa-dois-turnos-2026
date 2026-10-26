@@ -1,0 +1,128 @@
+[
+ {
+  "num": 0,
+  "file": "00-guia-da-serie.html",
+  "title": "A virada de 2026 nos registros das urnas: guia da série",
+  "desc": "Série sobre como a vantagem entre Flávio Bolsonaro e Lula mudou de lado entre os turnos de 2026, nos registros das urnas por zona.",
+  "labels": [
+   "eleições 2026",
+   "segundo turno",
+   "dados abertos",
+   "série"
+  ],
+  "chars": 3584,
+  "nfig": 0
+ },
+ {
+  "num": 1,
+  "file": "01-a-conta-da-virada.html",
+  "title": "A conta da virada: de onde vieram os 14,1 milhões de votos novos dos finalistas",
+  "desc": "De onde vieram os 14,1 milhões de votos novos de Lula e Flávio Bolsonaro entre os turnos de 2026, nos registros das urnas por zona.",
+  "labels": [
+   "eleições 2026",
+   "segundo turno",
+   "dados abertos",
+   "TSE"
+  ],
+  "chars": 14053,
+  "nfig": 3
+ },
+ {
+  "num": 2,
+  "file": "02-a-virada-foi-um-deslocamento-uniforme.html",
+  "title": "A virada foi quase um deslocamento uniforme de 5,4 pontos",
+  "desc": "Em 97% das zonas eleitorais a margem andou a favor de Lula entre os turnos; um deslocamento único prevê o 2º turno com erro de 2 pontos.",
+  "labels": [
+   "eleições 2026",
+   "segundo turno",
+   "zonas eleitorais",
+   "dados abertos"
+  ],
+  "chars": 16678,
+  "nfig": 2
+ },
+ {
+  "num": 3,
+  "file": "03-onde-a-virada-pesou.html",
+  "title": "Onde a virada pesou: Sudeste e Nordeste deram 81% do saldo, e Minas foi o único estado a trocar de lado",
+  "desc": "Margens do 1º e do 2º turno de 2026 por região e UF, saldo líquido em votos e o caso de Minas Gerais, nos registros das urnas.",
+  "labels": [
+   "eleições 2026",
+   "segundo turno",
+   "regiões",
+   "estados"
+  ],
+  "chars": 21957,
+  "nfig": 1
+ },
+ {
+  "num": 4,
+  "file": "04-capitais-grandes-e-pequenos-municipios.html",
+  "title": "Cidades grandes e pequenas: o deslocamento foi maior onde havia mais eleitores",
+  "desc": "Margem Flávio − Lula por tamanho de município e nas capitais, nos dois turnos de 2026, e o caso do Rio de Janeiro.",
+  "labels": [
+   "eleições 2026",
+   "segundo turno",
+   "capitais",
+   "municípios"
+  ],
+  "chars": 22517,
+  "nfig": 1
+ },
+ {
+  "num": 5,
+  "file": "05-para-onde-foram-os-votos.html",
+  "title": "Para onde foram os votos dos outros candidatos, dos brancos e nulos e dos que não votaram",
+  "desc": "Estimativas de migração de votos entre os turnos de 2026 por inferência ecológica, com intervalos e limites do modelo.",
+  "labels": [
+   "eleições 2026",
+   "segundo turno",
+   "inferência ecológica",
+   "migração de votos"
+  ],
+  "chars": 22759,
+  "nfig": 1
+ },
+ {
+  "num": 6,
+  "file": "06-comparecimento-brancos-e-nulos.html",
+  "title": "Comparecimento, brancos e nulos: o que mudou entre os dois turnos de 2026",
+  "desc": "O comparecimento subiu 1,9 ponto, brancos e nulos caíram de 4,8% para 3,2% dos comparecentes, e a queda acompanhou a margem.",
+  "labels": [
+   "eleições 2026",
+   "segundo turno",
+   "comparecimento",
+   "votos brancos e nulos"
+  ],
+  "chars": 13467,
+  "nfig": 1
+ },
+ {
+  "num": 7,
+  "file": "07-dentro-dos-municipios-as-zonas.html",
+  "title": "Dentro dos municípios: o que as zonas eleitorais mostram sobre a virada",
+  "desc": "As zonas explicam pouco do nível da margem e mais da sua mudança; São Paulo, Rio e Belo Horizonte têm zonas de lados opostos.",
+  "labels": [
+   "eleições 2026",
+   "zonas eleitorais",
+   "municípios",
+   "segundo turno"
+  ],
+  "chars": 33948,
+  "nfig": 1
+ },
+ {
+  "num": 8,
+  "file": "08-como-ler-as-estimativas.html",
+  "title": "Como ler as estimativas de migração de votos: o que a inferência ecológica garante e o que não garante",
+  "desc": "Método, verificação por simulação e limites das estimativas de migração de votos entre os turnos de 2026.",
+  "labels": [
+   "eleições 2026",
+   "inferência ecológica",
+   "metodologia",
+   "dados abertos"
+  ],
+  "chars": 5186,
+  "nfig": 0
+ }
+]

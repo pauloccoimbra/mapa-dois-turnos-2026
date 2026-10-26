@@ -1,0 +1,417 @@
+<title>Mapa dos Dois Turnos 2026</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: barra de controles no topo; mapa à esquerda, painel de detalhe à direita; empilha no celular. */
+:root{
+  --bg:#ffffff; --panel:#ffffff; --ink:#15202b; --muted:#5b6978; --line:#dce1e7;
+  --lula:#0e7c86; --flavio:#c9780a; --mid:#e6e9ed; --ghost:#e9ecf0; --pos:#3a66b5; --neg:#b8456f;
+  --seq0:#e6e9ed; --seq1:#34508f; --focus:#1b5fd6; --soft:#eef1f4;
+  --font-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-head:"Schibsted Grotesk","IBM Plex Sans",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0e141a; --panel:#151d25; --ink:#e6ebf0; --muted:#94a2b1; --line:#27333e;
+  --lula:#3cb8bf; --flavio:#e8a645; --mid:#2b3641; --ghost:#1c2630; --pos:#7099e3; --neg:#e47ca1;
+  --seq0:#2b3641; --seq1:#7f9be0; --focus:#7aa7ff; --soft:#1a232d; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e141a; --panel:#151d25; --ink:#e6ebf0; --muted:#94a2b1; --line:#27333e;
+  --lula:#3cb8bf; --flavio:#e8a645; --mid:#2b3641; --ghost:#1c2630; --pos:#7099e3; --neg:#e47ca1;
+  --seq0:#2b3641; --seq1:#7f9be0; --focus:#7aa7ff; --soft:#1a232d; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:14px/1.45 var(--font-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px 28px}
+.wrap{max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+h1{font:700 22px/1.15 var(--font-head);margin:0;letter-spacing:-.01em}
+.sub{color:var(--muted);margin:2px 0 0;max-width:80ch}
+.top{display:flex;flex-wrap:wrap;gap:10px 24px;align-items:flex-end;justify-content:space-between}
+.ctrl{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:flex-end}
+label.f{display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--muted);min-width:0}
+select,input[type=search]{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:7px 9px;min-width:0}
+select{max-width:100%}
+:focus-visible{outline:2px solid var(--focus);outline-offset:1px}
+.crumbs{display:flex;flex-wrap:wrap;gap:4px;align-items:center;font-size:13px}
+.crumbs button{all:unset;cursor:pointer;color:var(--ink);padding:3px 7px;border-radius:5px;border:1px solid transparent}
+.crumbs button:hover{background:var(--soft);border-color:var(--line)}
+.crumbs button:focus-visible{outline:2px solid var(--focus)}
+.crumbs .cur{font-weight:600;padding:3px 7px}
+.crumbs .sep{color:var(--muted)}
+.grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:14px;align-items:start}
+@media (max-width:900px){.grid{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px}
+.mapcard{padding:10px;position:sticky;top:8px}
+@media (max-width:900px){.mapcard{position:static}}
+#map{width:100%;height:auto;display:block;aspect-ratio:1/1;max-height:78vh;touch-action:manipulation}
+#map path.uf{stroke:var(--panel);stroke-width:.6;vector-effect:non-scaling-stroke;cursor:pointer}
+#map path.uf.ghost{cursor:pointer}
+#map path.uf.sel{stroke:var(--ink);stroke-width:1.4}
+#map path.mu{stroke:var(--panel);stroke-width:.5;vector-effect:non-scaling-stroke;cursor:pointer}
+#map path.mu.sel{stroke:var(--ink);stroke-width:2.2}
+#map circle{stroke:var(--panel);stroke-width:.5;vector-effect:non-scaling-stroke;cursor:pointer}
+#map circle.sel{stroke:var(--ink);stroke-width:2}
+#map text{font-family:var(--font-body);font-weight:600;fill:var(--ink);paint-order:stroke;stroke:var(--panel);stroke-linejoin:round;pointer-events:none}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;padding:6px 4px 2px;font-size:12px;color:var(--muted)}
+.bar{height:10px;width:200px;max-width:100%;border-radius:3px;border:1px solid var(--line)}
+.legend .lab{display:flex;gap:6px;align-items:center}
+.zt{padding:8px 4px 2px}.zt h3{margin:0 0 6px}#zsvg{width:100%;height:auto;display:block}#zsvg rect{stroke:var(--panel);stroke-width:1.5}#zsvg text{font:600 11px var(--font-body);pointer-events:none}
+@media (max-width:600px){th,td{padding:5px 4px}body{font-size:13px}}
+.tip{position:fixed;z-index:20;pointer-events:none;background:var(--ink);color:var(--bg);padding:6px 9px;border-radius:6px;font-size:12px;max-width:260px;line-height:1.35;display:none}
+.panel{padding:14px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.ph{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;justify-content:space-between}
+.ph h2{font:700 19px/1.2 var(--font-head);margin:0}
+.ph .tag{font-size:12px;color:var(--muted)}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+th,td{padding:5px 7px;text-align:right;white-space:nowrap}
+.flow td:first-child,.flow th:first-child{white-space:normal;min-width:84px}
+th:first-child,td:first-child{text-align:left}
+thead th{font-weight:500;font-size:12px;color:var(--muted);border-bottom:1px solid var(--line)}
+tbody tr+tr td{border-top:1px solid var(--line)}
+td.l{color:var(--lula);font-weight:600} td.f{color:var(--flavio);font-weight:600}
+.sm{font-size:12px;color:var(--muted)}
+h3{font:600 13px var(--font-body);margin:0 0 6px;letter-spacing:.02em;text-transform:uppercase;color:var(--muted)}
+.chip{display:inline-block;min-width:54px;padding:1px 6px;border-radius:4px;text-align:right;font-variant-numeric:tabular-nums}
+.rowbtn{cursor:pointer}
+.rowbtn:hover td{background:var(--soft)}
+.rowbtn td:first-child{font-weight:500}
+.rowbtn:focus-visible{outline:2px solid var(--focus);outline-offset:-2px}
+.mb{display:inline-block;width:56px;height:8px;background:var(--soft);position:relative;vertical-align:middle;border-radius:2px}
+.mb i{position:absolute;top:0;bottom:0;border-radius:2px}
+.mb::after{content:"";position:absolute;left:50%;top:-2px;bottom:-2px;width:1px;background:var(--muted);opacity:.6}
+.badge{font-size:11px;padding:1px 6px;border-radius:9px;border:1px solid var(--line);color:var(--muted);margin-left:6px}
+.note{font-size:12px;color:var(--muted);margin:6px 0 0;max-width:80ch}
+.flow td.c{position:relative}
+.warn{color:var(--neg)}
+.listhead{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin-bottom:6px}
+.more{all:unset;cursor:pointer;color:var(--focus);padding:6px 2px;display:inline-block}
+.foot a{color:var(--focus)}
+.foot{font-size:14px;line-height:1.5;color:var(--muted);margin:0 0 6px}
+.footer{margin-top:4px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+.kpi{border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.kpi b{display:block;font:700 18px var(--font-head);font-variant-numeric:tabular-nums}
+.kpi span{font-size:12px;color:var(--muted)}
+</style>
+
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>Mapa dos dois turnos de 2026</h1>
+      <p class="sub">Presidente: Flávio Bolsonaro e Lula, por região, estado, município e zona eleitoral. Dados do TSE (totalização por zona). Cada município pode ser aberto em suas zonas.</p>
+    </div>
+    <div class="ctrl">
+      <label class="f" for="metric">Cor do mapa
+        <select id="metric"></select>
+      </label>
+    </div>
+  </div>
+  <nav class="crumbs" id="crumbs" aria-label="Nível geográfico"></nav>
+  <div class="grid">
+    <div class="card mapcard">
+      <svg id="map" viewBox="0 0 100 100" role="img" aria-label="Mapa do Brasil"></svg>
+      <div class="legend" id="legend"></div>
+      <div id="zones" hidden></div>
+    </div>
+    <div class="card panel" id="panel"></div>
+  </div>
+  <div class="footer">
+  <p class="foot">Margem = % de Flávio menos % de Lula nos votos válidos; positiva (âmbar) indica Flávio à frente, negativa (azul-esverdeado) indica Lula. Comparecimento é calculado sobre o eleitorado apto de cada turno; brancos e nulos, sobre os comparecentes. Malhas municipais de dados abertos (simplificadas). As zonas eleitorais não têm malha pública: ao abrir um município, cada zona aparece como um bloco proporcional ao eleitorado (esquema, sem posição geográfica) e em tabela. Os fluxos entre candidatos são estimativas estatísticas (inferência ecológica), disponíveis apenas até o nível de estado.</p>
+  <p class="foot">Projeto independente de Paulo C. Coimbra, sem vínculo com o TSE, partidos ou candidaturas. Números oficiais: <a href="https://resultados.tse.jus.br">resultados.tse.jus.br</a>.</p>
+  <p class="foot">O 2º turno (25 de outubro de 2026) tem site próprio: <a href="https://pauloccoimbra.github.io/apuracao-2026-segundo-turno/">2º turno ↗</a>. O 1º turno (4 de outubro) tem site próprio: <a href="https://pauloccoimbra.github.io/apuracao-2026-primeiro-turno/">1º turno ↗</a>.</p>
+  <p class="foot">Cenários e projeções são hipóteses de trabalho, não previsão nem pesquisa eleitoral. O resultado oficial é o do TSE.</p>
+  <p class="foot">Fonte: arquivos públicos de divulgação do TSE (totalização por município e zona), lidos em 26/10/2026; malhas do IBGE (via tbrugz/geodata-br, CC0), simplificadas. Código, dados e metodologia: <a href="https://github.com/pauloccoimbra/mapa-dois-turnos-2026">github.com/pauloccoimbra/mapa-dois-turnos-2026</a>. Painel neutro e informativo, com dados agregados por zona eleitoral; nenhum dado pessoal.</p>
+  <p class="foot">Contagem anônima de visitas (GoatCounter, sem cookies). Visualizações do site: <b id="gc-total">…</b></p>
+  </div>
+</div>
+<div class="tip" id="tip"></div>
+
+<script>
+const D = /*DATA*/;
+(function(){
+"use strict";
+const nf=new Intl.NumberFormat('pt-BR'), nf1=new Intl.NumberFormat('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1}), nf2=new Intl.NumberFormat('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const REGS=['Norte','Nordeste','Centro-Oeste','Sudeste','Sul','Exterior'];
+const UFCODE={ac:12,al:27,am:13,ap:16,ba:29,ce:23,df:53,es:32,go:52,ma:21,mg:31,ms:50,mt:51,pa:15,pb:25,pe:26,pi:22,pr:41,rj:33,rn:24,ro:11,rr:14,rs:43,sc:42,se:28,sp:35,to:17};
+const UFNAME={ac:'Acre',al:'Alagoas',am:'Amazonas',ap:'Amapá',ba:'Bahia',ce:'Ceará',df:'Distrito Federal',es:'Espírito Santo',go:'Goiás',ma:'Maranhão',mg:'Minas Gerais',ms:'Mato Grosso do Sul',mt:'Mato Grosso',pa:'Pará',pb:'Paraíba',pe:'Pernambuco',pi:'Piauí',pr:'Paraná',rj:'Rio de Janeiro',rn:'Rio Grande do Norte',ro:'Rondônia',rr:'Roraima',rs:'Rio Grande do Sul',sc:'Santa Catarina',se:'Sergipe',sp:'São Paulo',to:'Tocantins',zz:'Exterior'};
+const CODEUF={}; for(const k in UFCODE) CODEUF[UFCODE[k]]=k;
+const $=id=>document.getElementById(id);
+
+/* ---------- agregação ---------- */
+function agg(zs){const a=new Array(15).fill(0);for(const z of zs)for(let i=1;i<15;i++)a[i]+=z[i];a[0]=zs.length;return a}
+const sd=(x,y)=>y>0?x/y*100:NaN;
+function ind(a){ // a[1..14]=E1,C1,Br1,Nu1,V1,F1,L1,E2,C2,Br2,Nu2,V2,F2,L2
+  const m1=sd(a[6]-a[7],a[5]), m2=sd(a[13]-a[14],a[12]);
+  return {F1:sd(a[6],a[5]),L1:sd(a[7],a[5]),F2:sd(a[13],a[12]),L2:sd(a[14],a[12]),m1,m2,dm:m2-m1,
+    t1:sd(a[2],a[1]),t2:sd(a[9],a[8]),b1:sd(a[3],a[2]),b2:sd(a[10],a[9]),n1:sd(a[4],a[2]),n2:sd(a[11],a[9]),
+    bn1:sd(a[3]+a[4],a[2]),bn2:sd(a[10]+a[11],a[9]),O1:sd(a[5]-a[6]-a[7],a[5])};
+}
+const units={}; // chave -> {name,level,zs,a,i,children}
+const muns=[]; // todos
+function mk(key,name,level,zs,parent){const u={key,name,level,zs,parent,a:agg(zs)};u.i=ind(u.a);units[key]=u;return u}
+const ufU={}, regU={};
+const allZones=[];
+for(const uf in D.muns){
+  const tc=s=>s.toLowerCase().replace(/(^|[\s\-'(])([a-zà-ú])/g,(m,p,c)=>p+c.toUpperCase()).replace(/ (D[aeo]s?|E) /g,x=>x.toLowerCase());
+  const ms=D.muns[uf].map(([ib,nome,cm,zs])=>({ib,nome:tc(nome),cm,zs,uf}));
+  const zsAll=[]; ms.forEach(m=>{m.zs.forEach(z=>zsAll.push(z));allZones.push(...m.zs)});
+  ufU[uf]={uf,ms,zs:zsAll};
+}
+const reg2ufs={}; for(const uf in ufU){const r=D.ufreg[uf];(reg2ufs[r]=reg2ufs[r]||[]).push(uf)}
+const root=mk('br','Brasil','br',allZones,null); root.children=[];
+for(const r of REGS){const ufs=reg2ufs[r]||[];const zs=[];ufs.forEach(u=>zs.push(...ufU[u].zs));
+  const ru=mk('r:'+r,r,'reg',zs,root);ru.children=[];regU[r]=ru;root.children.push(ru);
+  ufs.sort((x,y)=>UFNAME[x].localeCompare(UFNAME[y],'pt'));
+  for(const uf of ufs){const uu=mk('u:'+uf,UFNAME[uf],'uf',ufU[uf].zs,ru);uu.uf=uf;uu.reg=r;uu.children=[];ru.children.push(uu);ufU[uf].unit=uu;
+    for(const m of ufU[uf].ms){const mu=mk('m:'+uf+':'+m.cm,m.nome,'mun',m.zs,uu);mu.uf=uf;mu.ib=m.ib;mu.reg=r;uu.children.push(mu);m.unit=mu;muns.push(mu);
+      mu.children=m.zs.map(z=>{const zu={key:'z:'+uf+':'+m.cm+':'+z[0],name:'Zona '+z[0],level:'zon',zs:[z],parent:mu,a:agg([z])};zu.i=ind(zu.a);return zu});}}
+}
+/* ---------- geometria ---------- */
+const KX=0.97; // correção de escala em longitude (~lat -15)
+function decRing(s){let x=0,y=0;const p=[];for(const t of s.split(' ')){const [dx,dy]=t.split(',').map(Number);x+=dx;y+=dy;p.push([x*KX,-y])}return p}
+const ufPath={}, ufBox={};
+for(const c in D.geo.uf){const uf=CODEUF[c];let d='',b=[1e9,1e9,-1e9,-1e9];
+  for(const r of D.geo.uf[c]){const p=decRing(r);d+='M'+p.map(q=>q[0].toFixed(1)+' '+q[1].toFixed(1)).join('L')+'Z';for(const q of p){b[0]=Math.min(b[0],q[0]);b[1]=Math.min(b[1],q[1]);b[2]=Math.max(b[2],q[0]);b[3]=Math.max(b[3],q[1])}}
+  ufPath[uf]=d;ufBox[uf]=b}
+const ibPos={}; // ibge -> [x,y]
+for(const c in D.geo.cen){let id=0;for(const t of D.geo.cen[c].split(' ')){const [di,x,y]=t.split(',').map(Number);id+=di;ibPos[id]=[x*KX,-y]}}
+const munGeo={};
+const decUF={};
+function decodeUF(uf){if(decUF[uf])return;decUF[uf]=1;const arr=D.geo.mun[UFCODE[uf]]||[];
+  for(const [id,enc] of arr){let d='',b=[1e9,1e9,-1e9,-1e9];
+    for(const ring of enc.split('|')){if(!ring)continue;let x=0,y=0,pts=[];for(const t of ring.split(' ')){const k=t.indexOf(',');x+=+t.slice(0,k);y+=+t.slice(k+1);const X=x/5*KX,Y=-y/5;pts.push(X.toFixed(1)+' '+Y.toFixed(1));if(X<b[0])b[0]=X;if(X>b[2])b[2]=X;if(Y<b[1])b[1]=Y;if(Y>b[3])b[3]=Y}
+      d+='M'+pts.join('L')+'Z'}
+    munGeo[id]={d,box:b}}}
+function boxOf(ufs){let b=[1e9,1e9,-1e9,-1e9];for(const u of ufs){const q=ufBox[u];if(!q)continue;b[0]=Math.min(b[0],q[0]);b[1]=Math.min(b[1],q[1]);b[2]=Math.max(b[2],q[2]);b[3]=Math.max(b[3],q[3])}return b}
+
+/* ---------- cores ---------- */
+function cssRGB(name){const v=getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  if(v[0]==='#'){const h=v.length===4?v.slice(1).replace(/./g,'$&$&'):v.slice(1);return [0,2,4].map(i=>parseInt(h.slice(i,i+2),16))}
+  const m=v.match(/[\d.]+/g);return m?m.slice(0,3).map(Number):[128,128,128]}
+let C={};let limScale=1;
+function loadColors(){for(const n of ['lula','flavio','mid','pos','neg','seq0','seq1','ghost'])C[n]=cssRGB('--'+n)}
+const mix=(a,b,t)=>'rgb('+a.map((v,i)=>Math.round(v+(b[i]-v)*t)).join(',')+')';
+const METRICS=[
+ {id:'m2',label:'Margem no 2º turno (Flávio − Lula)',get:i=>i.m2,type:'div',hi:'flavio',lo:'lula',lim:50,unit:'p.p.',signed:true},
+ {id:'m1',label:'Margem no 1º turno (Flávio − Lula)',get:i=>i.m1,type:'div',hi:'flavio',lo:'lula',lim:50,unit:'p.p.',signed:true},
+ {id:'dm',label:'Mudança da margem, 1º → 2º turno',get:i=>i.dm,type:'div',hi:'flavio',lo:'lula',lim:15,unit:'p.p.',signed:true},
+ {id:'t2',label:'Comparecimento no 2º turno',get:i=>i.t2,type:'seq',min:65,max:90,unit:'%'},
+ {id:'dt',label:'Mudança no comparecimento',get:i=>i.t2-i.t1,type:'div',hi:'pos',lo:'neg',lim:5,unit:'p.p.',signed:true},
+ {id:'bn2',label:'Brancos + nulos no 2º turno (% dos comparecentes)',get:i=>i.bn2,type:'seq',min:1,max:10,unit:'%'},
+ {id:'dbn',label:'Mudança em brancos + nulos',get:i=>i.bn2-i.bn1,type:'div',hi:'pos',lo:'neg',lim:5,unit:'p.p.',signed:true}];
+const MET={}; METRICS.forEach(m=>MET[m.id]=m);
+function colorFor(m,v){if(!isFinite(v))return 'rgb(128,128,128)';
+  if(m.type==='div'){const t=Math.max(-1,Math.min(1,v/(m.lim*limScale)));return mix(C.mid,C[t>=0?m.hi:m.lo],Math.pow(Math.abs(t),.85))}
+  const t=Math.max(0,Math.min(1,(v-m.min)/(m.max-m.min)));return mix(C.seq0,C.seq1,t)}
+const inkOn=f=>{const n=(f.match(/\d+/g)||[128,128,128]).map(Number);return (0.299*n[0]+0.587*n[1]+0.114*n[2])>150?'#101820':'#ffffff'};
+const fmtV=(m,v)=>!isFinite(v)?'—':(m.signed&&v>0?'+':'')+nf1.format(v)+' '+m.unit;
+const pp=(v,s=true)=>!isFinite(v)?'—':(s&&v>0?'+':'')+nf1.format(v);
+
+/* ---------- estado ---------- */
+let state={sel:'br',metric:'m2',limit:60,q:''};
+const hashKey=()=>{};
+function cur(){return units[state.sel]}
+function chain(u){const c=[];for(let x=u;x;x=x.parent)c.unshift(x);return c}
+
+/* ---------- mapa ---------- */
+const svg=$('map'), NS='http://www.w3.org/2000/svg';
+let vb=[0,0,100,100], vbAnim=null;
+function setVB(b,animate){const pad=Math.max(b[2]-b[0],b[3]-b[1])*0.06;let x0=b[0]-pad,y0=b[1]-pad,w=b[2]-b[0]+2*pad,h=b[3]-b[1]+2*pad;
+  const s=Math.max(w,h);x0-=(s-w)/2;y0-=(s-h)/2;const to=[x0,y0,s,s];
+  cancelAnimationFrame(vbAnim);
+  if(!animate||matchMedia('(prefers-reduced-motion: reduce)').matches){vb=to;svg.setAttribute('viewBox',to.join(' '));return}
+  const from=vb.slice(),t0=performance.now();
+  const step=t=>{const k=Math.min(1,(t-t0)/380),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;vb=from.map((v,i)=>v+(to[i]-v)*e);svg.setAttribute('viewBox',vb.join(' '));if(k<1)vbAnim=requestAnimationFrame(step)};
+  vbAnim=requestAnimationFrame(step)}
+function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e}
+const tip=$('tip');
+function showTip(ev,html){tip.innerHTML=html;tip.style.display='block';const r=tip.getBoundingClientRect();let x=ev.clientX+14,y=ev.clientY+14;if(x+r.width>innerWidth-8)x=ev.clientX-r.width-14;if(y+r.height>innerHeight-8)y=ev.clientY-r.height-14;tip.style.left=Math.max(4,x)+'px';tip.style.top=Math.max(4,y)+'px'}
+const hideTip=()=>{tip.style.display='none'};
+function tipHTML(u){const m=MET[state.metric],i=u.i;
+  return '<b>'+esc(u.name)+(u.level==='mun'?' · '+u.uf.toUpperCase():'')+'</b><br>'+m.label.replace(/ \(.*\)/,'')+': <b>'+fmtV(m,m.get(i))+'</b><br>Margem: '+pp(i.m1)+' → '+pp(i.m2)+' p.p.<br>Eleitorado: '+nf.format(u.a[8])}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function drawMap(animate){
+  loadColors();const m=MET[state.metric],u=cur();
+  const lv=u.level; const regSel=lv==='reg'?u.name:(u.reg||null); const ufSel=(lv==='uf'||lv==='mun'||lv==='zon')?(u.uf):null;
+  svg.innerHTML='';
+  const gU=el('g',{},svg), gD=el('g',{},svg), gT=el('g',{},svg);
+  let box;
+  if(lv==='br'){box=boxOf(Object.keys(ufPath))}
+  else if(lv==='reg'){const us=reg2ufs[u.name]||[];box=us.length?boxOf(us):boxOf(Object.keys(ufPath));if(!isFinite(box[0])||box[0]>1e8)box=boxOf(Object.keys(ufPath))}
+  else box=ufBox[ufSel]||boxOf(Object.keys(ufPath));
+  const mode = lv==='br'?'reg':(lv==='reg'?'ufs':'muns');limScale=mode==='reg'?.45:mode==='ufs'?.6:1;
+  for(const uf in ufPath){
+    const p=el('path',{d:ufPath[uf],class:'uf'},gU);
+    const ru=regU[D.ufreg[uf]], uu=ufU[uf].unit;
+    let fill,target,focus=true;
+    if(mode==='reg'){fill=colorFor(m,m.get(ru.i));target=ru}
+    else if(mode==='ufs'){focus=D.ufreg[uf]===regSel;fill=focus?colorFor(m,m.get(uu.i)):mix(C.ghost,C.ghost,0);target=focus?uu:ru;if(!focus)p.classList.add('ghost')}
+    else{focus=uf===ufSel;fill=focus?mix(C.ghost,C.mid,.6):C.ghost.length?('rgb('+C.ghost.join(',')+')'):'#ccc';target=uu;if(!focus)p.classList.add('ghost');if(focus)p.classList.add('sel')}
+    p.setAttribute('fill',fill);
+    p.addEventListener('mousemove',ev=>showTip(ev,tipHTML(mode==='reg'?ru:uu)));
+    p.addEventListener('mouseleave',hideTip);
+    p.addEventListener('click',()=>{hideTip();go(mode==='reg'?ru.key:uu.key)});
+  }
+  if(mode==='reg'){
+    for(const r of REGS){const us=reg2ufs[r];if(!us)continue;const b=boxOf(us);const t=el('text',{x:(b[0]+b[2])/2,y:(b[1]+b[3])/2,'text-anchor':'middle'},gT);t.textContent=r}
+  }
+  if(mode==='ufs'){
+    for(const uf of reg2ufs[u.name]||[]){const b=ufBox[uf];if(!b)continue;const t=el('text',{x:(b[0]+b[2])/2,y:(b[1]+b[3])/2+2,'text-anchor':'middle'},gT);t.textContent=uf.toUpperCase()}
+  }
+  if(mode==='muns'){
+    decodeUF(ufSel);
+    const selMun=(lv==='mun'||lv==='zon')?(lv==='mun'?u:u.parent):null;
+    const ms=ufU[ufSel].ms;let selEl=null,selB=null;
+    const span0=Math.max(box[2]-box[0],box[3]-box[1]);
+    for(const mm of ms){const mu=mm.unit,g=mm.ib&&munGeo[mm.ib];let e;
+      if(g){e=el('path',{d:g.d,class:'mu','fill-rule':'evenodd',fill:colorFor(m,m.get(mu.i))},gD)}
+      else if(mm.ib&&ibPos[mm.ib]){const q=ibPos[mm.ib];e=el('circle',{cx:q[0],cy:q[1],r:(span0*0.006).toFixed(2),fill:colorFor(m,m.get(mu.i))},gD)}
+      else continue;
+      e.addEventListener('mousemove',ev=>showTip(ev,tipHTML(mu)));e.addEventListener('mouseleave',hideTip);
+      e.addEventListener('click',()=>{hideTip();go(mu.key)});
+      if(selMun===mu){selEl=e;selB=g?g.box:null}}
+    if(selEl){selEl.classList.add('sel');gD.appendChild(selEl);
+      if(selB){const w=selB[2]-selB[0],h=selB[3]-selB[1],s=Math.max(w,h,span0*0.04),cx=(selB[0]+selB[2])/2,cy=(selB[1]+selB[3])/2,k=Math.min(span0/2,s*1.8);
+        box=[cx-k,cy-k,cx+k,cy+k];
+        const t=el('text',{x:cx,y:selB[1]-s*0.06,'text-anchor':'middle'},gT);t.textContent=selMun.name}}
+  }
+  const fsz=(Math.max(box[2]-box[0],box[3]-box[1])*0.034).toFixed(1);gT.querySelectorAll('text').forEach(x=>{x.setAttribute('font-size',fsz);x.setAttribute('stroke-width',(fsz*.25).toFixed(1))});setVB(box,animate);
+  svg.setAttribute('aria-label','Mapa: '+(lv==='br'?'regiões do Brasil':u.name));
+  drawLegend(m);
+}
+function drawLegend(m){const L=$('legend');let bar;
+  if(m.type==='div'){bar='linear-gradient(90deg,'+[-1,-.5,0,.5,1].map(t=>colorFor(m,t*m.lim*limScale)+' '+((t+1)*50)+'%').join(',')+')';
+    const lo=m.lo==='lula'?'Lula':'queda',hi=m.hi==='flavio'?'Flávio':'alta';
+    L.innerHTML='<span class="lab"><span>'+(m.lo==='lula'?'Lula à frente':'diminui')+'</span></span><span class="lab"><span>−'+nf.format(m.lim*limScale)+'</span><span class="bar" style="background:'+bar+'"></span><span>+'+nf.format(m.lim*limScale)+' '+m.unit+'</span></span><span class="lab"><span>'+(m.hi==='flavio'?'Flávio à frente':'aumenta')+'</span></span>';
+    if(m.id==='dm')L.innerHTML='<span class="lab">Mudança a favor de Lula</span><span class="lab"><span>−'+nf.format(m.lim*limScale)+'</span><span class="bar" style="background:'+bar+'"></span><span>+'+nf.format(m.lim*limScale)+' p.p.</span></span><span class="lab">a favor de Flávio</span>';
+  }else{bar='linear-gradient(90deg,'+[0,.5,1].map(t=>colorFor(m,m.min+t*(m.max-m.min))+' '+(t*100)+'%').join(',')+')';
+    L.innerHTML='<span class="lab"><span>'+m.min+'%</span><span class="bar" style="background:'+bar+'"></span><span>'+m.max+'%</span></span>'}
+  if(cur().name==='Exterior'||cur().uf==='zz')L.innerHTML+='<span class="lab">O exterior não tem mapa; veja a tabela.</span>';
+  const lv=cur().level;if(lv==='uf'||lv==='mun'||lv==='zon')L.innerHTML+='<span class="lab">Cada polígono é um município</span>';
+}
+
+/* ---------- painel ---------- */
+const R5=['Flávio','Lula','Outros cand.','Brancos+Nulos','Abstenção'];
+const R5L={'Flávio':'Eleitores de Flávio','Lula':'Eleitores de Lula','Outros cand.':'Eleitores de outros candidatos','Brancos+Nulos':'Brancos e nulos','Abstenção':'Abstenção'};
+const C4=['Lula','Flávio','Brancos+Nulos','Abstenção'];
+const C4L=['Lula','Flávio','Branco/nulo','Abstenção'];
+function estFor(u){
+  if(u.level==='br')return D.est.br;
+  if(u.level==='reg')return D.est.regiao[u.name];
+  if(u.level==='uf')return D.est.uf[u.uf.toUpperCase()];
+  return null}
+const cf=v=>v<.1?nf1.format(v*100):nf.format(Math.round(v*100));
+function flowHTML(u){const e=estFor(u);
+  if(!e)return '<div><h3>Para onde foram os eleitores do 1º turno</h3><p class="note">Abaixo do nível de estado há poucas zonas por unidade para estimar transferências com segurança. Aqui valem a decomposição observada e a tabela de zonas.</p></div>';
+  const few=(u.level==='uf'||u.level==='reg')&&e['Lula'].n<30;
+  let h='<div><h3>Para onde foram os eleitores do 1º turno (estimativa)</h3><div class="tw"><table class="flow"><thead><tr><th>Origem</th><th>Base</th>'+C4L.map(c=>'<th>→ '+c+'</th>').join('')+'</tr></thead><tbody>';
+  for(const o of R5){const x=e[o];h+='<tr><td>'+R5L[o]+'</td><td>'+nf.format(Math.round(x.base))+'</td>'+x.r.map((r,k)=>{const lo=x.lo[k],hi=x.hi[k];const t=Math.min(1,r*1.2);
+    return '<td class="c" style="background:color-mix(in srgb,var(--'+(k===0?'lula':k===1?'flavio':'pos')+') '+Math.round(t*38)+'%,transparent)">'+nf1.format(r*100)+'%<div class="sm">'+cf(lo)+'–'+cf(hi)+'</div></td>'}).join('')+'</tr>'}
+  h+='</tbody></table></div><p class="note">'+(few?'<span class="warn">Poucas zonas nesta unidade: leia com cautela.</span> ':'')+'Inferência ecológica por mínimos quadrados com restrições, usando as zonas da unidade; faixas de 95% por bootstrap de municípios, que subestimam a incerteza do modelo. A linha de brancos e nulos é a menos precisa. Um eleitor que mudou de candidato aparece nas colunas, mas o modelo só identifica os fluxos líquidos.</p></div>';
+  return h}
+function resTable(u){const a=u.a,i=u.i;
+  const row=(lab,cls,v1,v2,d)=>'<tr><td>'+lab+'</td><td class="'+cls+'">'+v1+'</td><td class="'+cls+'">'+v2+'</td><td>'+d+'</td></tr>';
+  const votes=(n,p)=>nf.format(n)+'<div class="sm">'+nf1.format(p)+'%</div>';
+  return '<div class="tw"><table><thead><tr><th>Indicador</th><th>1º turno</th><th>2º turno</th><th>Variação</th></tr></thead><tbody>'+
+   row('Flávio Bolsonaro','f',votes(a[6],i.F1),votes(a[13],i.F2),(a[13]-a[6]>=0?'+':'')+nf.format(a[13]-a[6])+'<div class="sm">'+pp(i.F2-i.F1)+' p.p.</div>')+
+   row('Lula','l',votes(a[7],i.L1),votes(a[14],i.L2),(a[14]-a[7]>=0?'+':'')+nf.format(a[14]-a[7])+'<div class="sm">'+pp(i.L2-i.L1)+' p.p.</div>')+
+   row('Outros candidatos','',votes(a[5]-a[6]-a[7],i.O1),'—','—')+
+   row('Margem Flávio − Lula','',pp(i.m1)+' p.p.',pp(i.m2)+' p.p.',pp(i.dm)+' p.p.')+
+   row('Comparecimento','',nf1.format(i.t1)+'%',nf1.format(i.t2)+'%',pp(i.t2-i.t1)+' p.p.')+
+   row('Brancos','',nf.format(a[3])+'<div class="sm">'+nf1.format(i.b1)+'%</div>',nf.format(a[10])+'<div class="sm">'+nf1.format(i.b2)+'%</div>',(a[10]-a[3]>=0?'+':'')+nf.format(a[10]-a[3]))+
+   row('Nulos','',nf.format(a[4])+'<div class="sm">'+nf1.format(i.n1)+'%</div>',nf.format(a[11])+'<div class="sm">'+nf1.format(i.n2)+'%</div>',(a[11]-a[4]>=0?'+':'')+nf.format(a[11]-a[4]))+
+   row('Eleitorado apto','',nf.format(a[1]),nf.format(a[8]),(a[8]-a[1]>=0?'+':'')+nf.format(a[8]-a[1]))+
+   '</tbody></table></div>'}
+function leaderChange(u){const l1=u.a[6]>u.a[7]?'F':'L',l2=u.a[13]>u.a[14]?'F':'L';return l1!==l2?(l2==='L'?'virou para Lula':'virou para Flávio'):null}
+function marginBar(v){const w=Math.min(50,Math.abs(v)/60*50);const c=v>=0?'var(--flavio)':'var(--lula)';return '<span class="mb"><i style="background:'+c+';'+(v>=0?'left:50%':'right:50%')+';width:'+w+'%"></i></span>'}
+function childRows(u){
+  const m=MET[state.metric];
+  if(u.level==='mun'){
+    return {title:'Zonas eleitorais do município',head:['Zona','Eleitorado','Margem 1º','Margem 2º','Variação','Compar. 2º','Brancos+nulos 2º'],
+      rows:u.children.slice().sort((x,y)=>x.zs[0][0]-y.zs[0][0]).map(z=>{const i=z.i,lc=leaderChange(z);
+        return {key:null,cells:['Zona '+z.zs[0][0]+(lc?'<span class="badge">'+lc+'</span>':''),nf.format(z.a[8]),pp(i.m1),pp(i.m2)+' '+marginBar(i.m2),pp(i.dm),nf1.format(i.t2)+'%',nf1.format(i.bn2)+'%']}})}
+  }
+  let kids=u.children||[];
+  const title=u.level==='br'?'Regiões':u.level==='reg'?'Estados':'Municípios';
+  let rows=kids.map(k=>({k}));
+  if(u.level==='uf'&&state.q){const q=state.q.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');rows=rows.filter(r=>r.k.name.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').includes(q))}
+  if(u.level!=='uf')rows.sort((x,y)=>y.k.a[8]-x.k.a[8]); else rows.sort((x,y)=>y.k.a[8]-x.k.a[8]);
+  const total=rows.length; if(u.level==='uf')rows=rows.slice(0,state.limit);
+  return {title,total,head:[title.slice(0,-1)==='Município'?'Município':title==='Estados'?'Estado':'Região','Zonas','Eleitorado','Margem 1º','Margem 2º','Variação',m.id==='m1'||m.id==='m2'||m.id==='dm'?null:m.label.split(' (')[0]].filter(Boolean),
+    rows:rows.map(({k})=>{const i=k.i,lc=leaderChange(k);const cells=[esc(k.name)+(lc?'<span class="badge">'+lc+'</span>':''),nf.format(k.a[0]),nf.format(k.a[8]),pp(i.m1),pp(i.m2)+' '+marginBar(i.m2),pp(i.dm)];
+      if(!(m.id==='m1'||m.id==='m2'||m.id==='dm'))cells.push('<span class="chip" style="background:'+colorFor(m,m.get(i))+';color:'+inkOn(colorFor(m,m.get(i)))+'">'+fmtV(m,m.get(i))+'</span>');
+      return {key:k.key,cells}})}
+}
+function squarify(items,x,y,w,h){const out=[];let rest=items.slice();
+  const worst=(row,side,tot)=>{const s=row.reduce((a,b)=>a+b.v,0);const mx=Math.max(...row.map(r=>r.v)),mn=Math.min(...row.map(r=>r.v));return Math.max(side*side*mx/(s*s)*(1),s*s/(side*side*mn))};
+  while(rest.length){const side=Math.min(w,h),tot=rest.reduce((a,b)=>a+b.v,0);const sc=w*h/tot;
+    let row=[rest[0]],i=1;const areas=r=>r.map(q=>({...q,a:q.v*sc}));
+    const wr=r=>{const a=r.map(q=>q.v*sc),s=a.reduce((p,q)=>p+q,0);return Math.max(side*side*Math.max(...a)/(s*s),s*s/(side*side*Math.min(...a)))};
+    while(i<rest.length&&wr(row.concat(rest[i]))<=wr(row)){row.push(rest[i]);i++}
+    const s=row.reduce((p,q)=>p+q.v*sc,0);
+    if(w>=h){const cw=s/h;let yy=y;for(const q of row){const ch=q.v*sc/cw;out.push({...q,x,y:yy,w:cw,h:ch});yy+=ch}x+=cw;w-=cw}
+    else{const ch=s/w;let xx=x;for(const q of row){const cw=q.v*sc/ch;out.push({...q,x:xx,y,w:cw,h:ch});xx+=cw}y+=ch;h-=ch}
+    rest=rest.slice(row.length)}
+  return out}
+function drawZones(u){const Z=$('zones');const mu=u.level==='mun'?u:(u.level==='zon'?u.parent:null);
+  if(!mu||!mu.children.length){Z.hidden=true;Z.innerHTML='';return}
+  const m=MET[state.metric];limScale=1;loadColors();
+  const items=mu.children.map(z=>({z,v:Math.max(1,z.a[8])})).sort((a,b)=>b.v-a.v);
+  const W=400,H=Math.round(200+Math.min(60,items.length*3));
+  const cells=squarify(items,0,0,W,H);
+  let s='<svg id="zsvg" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Zonas eleitorais de '+esc(mu.name)+'">';
+  for(const c of cells){const v=m.get(c.z.i);const big=c.w>34&&c.h>20;
+    s+='<rect data-z="'+c.z.zs[0][0]+'" x="'+c.x.toFixed(1)+'" y="'+c.y.toFixed(1)+'" width="'+c.w.toFixed(1)+'" height="'+c.h.toFixed(1)+'" fill="'+colorFor(m,v)+'"><title>Zona '+c.z.zs[0][0]+': '+fmtV(m,v)+'</title></rect>';
+    const fc=inkOn(colorFor(m,v));if(big)s+='<text fill="'+fc+'" x="'+(c.x+5).toFixed(1)+'" y="'+(c.y+14).toFixed(1)+'">'+c.z.zs[0][0]+'</text>'+(c.h>34&&c.w>48?'<text fill="'+fc+'" x="'+(c.x+5).toFixed(1)+'" y="'+(c.y+27).toFixed(1)+'" style="font-weight:400">'+(isFinite(v)?(m.signed&&v>0?'+':'')+nf1.format(v):'—')+'</text>':'')}
+  s+='</svg>';
+  Z.innerHTML='<div class="zt"><h3>Zonas de '+esc(mu.name)+' (esquema)</h3>'+s+'<p class="note">Cada bloco é uma zona eleitoral, com área proporcional ao eleitorado e a mesma cor do mapa. A posição é apenas um arranjo; as zonas não têm limites geográficos públicos.</p></div>';
+  Z.hidden=false;
+  Z.querySelectorAll('rect').forEach(r=>{const zz=mu.children.find(k=>k.zs[0][0]==r.dataset.z);r.addEventListener('mousemove',ev=>showTip(ev,'<b>Zona '+r.dataset.z+'</b> · '+esc(mu.name)+'<br>'+tipHTML(zz).split('<br>').slice(1).join('<br>')));r.addEventListener('mouseleave',hideTip)})}
+function render(animate){
+  const u=cur();
+  // breadcrumbs
+  const cr=$('crumbs');cr.innerHTML='';
+  chain(u).forEach((c,idx,arr)=>{if(idx)cr.insertAdjacentHTML('beforeend','<span class="sep">›</span>');
+    if(c===u){cr.insertAdjacentHTML('beforeend','<span class="cur">'+esc(c.name)+(c.level==='mun'?' ('+c.uf.toUpperCase()+')':'')+'</span>')}
+    else{const b=document.createElement('button');b.textContent=c.name;b.onclick=()=>go(c.key);cr.appendChild(b)}});
+  drawMap(animate);drawZones(u);
+  const P=$('panel');
+  const lvl={br:'Brasil',reg:'Região',uf:'Estado',mun:'Município',zon:'Zona'}[u.level];
+  const nm=u.level==='mun'?u.children.length+' zona'+(u.children.length>1?'s':''):nf.format(u.a[0])+' zonas';
+  const nmun=u.level==='br'?' · '+nf.format(muns.length)+' localidades':u.level==='reg'||u.level==='uf'?' · '+nf.format(muns.filter(x=>u.level==='reg'?x.reg===u.name:x.uf===u.uf).length)+' '+(u.name==='Exterior'||u.uf==='zz'?'localidades':'municípios'):'';
+  let h='<div class="ph"><h2>'+esc(u.name)+(u.level==='mun'?' · '+u.uf.toUpperCase():'')+'</h2><span class="tag">'+lvl+' · '+nm+nmun+'</span></div>';
+  const i=u.i, w=i.m2>0?'Flávio':'Lula';
+  h+='<div class="kpis"><div class="kpi"><b style="color:var(--'+(i.m2>0?'flavio':'lula')+')">'+w+' '+nf1.format(Math.abs(i.m2))+' p.p.</b><span>vantagem no 2º turno</span></div><div class="kpi"><b>'+pp(i.dm)+' p.p.</b><span>mudança da margem (− = a favor de Lula)</span></div><div class="kpi"><b>'+nf1.format(i.t2)+'%</b><span>comparecimento no 2º turno ('+pp(i.t2-i.t1)+')</span></div></div>';
+  h+=resTable(u);
+  h+=flowHTML(u);
+  if(u.level==='zon'){}
+  const ch=childRows(u);
+  if(ch.rows&&ch.rows.length||u.level==='uf'){
+    h+='<div><div class="listhead"><h3 style="margin:0">'+ch.title+(ch.total!=null&&u.level==='uf'?' ('+nf.format(ch.total)+')':'')+'</h3>'+(u.level==='uf'?'<input type="search" id="q" placeholder="Buscar município" aria-label="Buscar município" value="'+esc(state.q)+'">':'')+'</div>';
+    if(u.level==='uf'&&u.uf==='zz')h+='<p class="note">O exterior não tem mapa; cada cidade é uma localidade de votação com zona própria.</p>';
+    h+='<div class="tw"><table><thead><tr>'+ch.head.map(x=>'<th>'+x+'</th>').join('')+'</tr></thead><tbody>'+ch.rows.map(r=>'<tr'+(r.key?' class="rowbtn" tabindex="0" role="button" data-k="'+r.key+'"':'')+'>'+r.cells.map(c=>'<td>'+c+'</td>').join('')+'</tr>').join('')+'</tbody></table></div>';
+    if(u.level==='uf'&&ch.total>state.limit)h+='<button class="more" id="more">Mostrar mais municípios</button>';
+    if(u.level==='mun')h+='<p class="note">As zonas eleitorais não têm malha pública; por isso a decomposição é feita em tabela. Etiqueta "virou" indica que o líder entre Flávio e Lula mudou do 1º para o 2º turno na zona.</p>';
+    h+='</div>'}
+  P.innerHTML=h;
+  P.querySelectorAll('[data-k]').forEach(r=>{const k=r.dataset.k;r.addEventListener('click',()=>go(k));r.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go(k)}})});
+  const q=$('q');if(q){q.addEventListener('input',e=>{state.q=e.target.value;state.limit=60;const pos=e.target.selectionStart;render(false);const q2=$('q');q2.focus();q2.setSelectionRange(pos,pos)})}
+  const mo=$('more');if(mo)mo.onclick=()=>{state.limit+=120;render(false)};
+}
+function go(key){if(!units[key])return;if(units[key].level!=='uf')state.q=state.q;if(units[key].level==='uf')state.limit=60;state.sel=key;render(true);
+  if(location.hash!==undefined){try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}}
+  if(matchMedia('(max-width:900px)').matches){const p=$('panel');}
+}
+// seletor de métrica
+const ms=$('metric');METRICS.forEach(m=>{const o=document.createElement('option');o.value=m.id;o.textContent=m.label;ms.appendChild(o)});
+ms.addEventListener('change',()=>{state.metric=ms.value;render(false)});
+// tema
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>render(false));
+new MutationObserver(()=>render(false)).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+render(false);
+window.__app={units,go,state,agg,root};
+})();
+</script>
+<script data-goatcounter="https://mapa-dois-turnos-2026.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script>
+(function(){try{var el=document.getElementById('gc-total');if(!el)return;
+fetch('https://mapa-dois-turnos-2026.goatcounter.com/counter/TOTAL.json').then(function(r){return r.ok?r.json():Promise.reject()}).then(function(d){el.textContent=d.count}).catch(function(){var p=el.parentNode;if(p)p.style.display='none'})}catch(e){}})();
+</script>
