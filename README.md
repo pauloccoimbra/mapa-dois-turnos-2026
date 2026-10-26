@@ -33,8 +33,6 @@ dados/
 src/
   analise/                       estimador, descritivas, bootstrap, validação por simulação
   pagina/                        modelo da página, construtor do index.html, tratamento das malhas
-  blog/                          estudos derivados e gerador dos posts para o Blogger
-blog/                            série de 9 posts (HTML), gráficos em PNG e guia de publicação
 tests/                           conferência dos totais e varredura da interface
 docs/                            metodologia, dicionário de dados, passo a passo do Zenodo
 ```
